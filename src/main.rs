@@ -31,6 +31,15 @@ fn main(){
         update_map(&map,&mut player,&enemies);
         update_infos(&map,&player,&enemies);
         let input:String = read!();
+        for enemy in &enemies{
+            if player.position.x == enemy.position.x && player.position.y == enemy.position.y {
+                if player.lives - enemy.damage <= 0{
+                    println!("You dead")
+                }else{
+                    player.lives -= enemy.damage
+                }
+            }
+        }
         match input.as_str() {
             "exit" => {running = false},
             "w" => player.position.move_entity(input,&map),
@@ -54,9 +63,6 @@ fn update_map(map: &Map, player: &mut Player, enemies:&[Enemy]){
                     if x == enemy.position.x && y == enemy.position.y {
                         print!(" x ");
                         enemy_drawn = true;
-                    }
-                    if player.position.x == enemy.position.x && player.position.y == enemy.position.y {
-
                     }
                 }
             }
